@@ -1,0 +1,87 @@
+import RPi.GPIO as GPIO
+from mfrc522 import SimpleMFRC522
+import time
+import spotipy
+from spotipy.oauth2 import SpotifyClientCredentials
+import spotipy.util as util
+from datetime import datetime
+import asyncio
+from kasa import SmartPlug
+import json
+
+cid ="61ce98e1500d48438714352d227ede3e" 
+secret = "5472a4601ac94130bd9f1a097eb7095a"
+username = "bradenhayes55"
+redirect_url='http://localhost:8000'
+client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret) 
+sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+scope = "playlist-modify-public playlist-modify-private playlist-read-private user-modify-playback-state"
+token = util.prompt_for_user_token(username, scope,cid,secret,redirect_url)
+
+if token:
+    sp = spotipy.Spotify(auth=token)
+else:
+    print("Can't get token for", username)    
+
+reader = SimpleMFRC522()
+p = SmartPlug("192.168.2.125")
+
+
+async def run_rfid():
+    is_playing = False
+    while 1:
+            await p.update()
+            id, text = reader.read()
+            if id == 352059467502:
+                print("first")
+                try:
+                    if is_playing == False:
+                        try:
+                            sp.start_playback(device_id='84d7c2a5f9f170bd9f311d7ff1976c832a8a7872',context_uri="spotify:playlist:1GbElhvLqjmJgoGdiznxmw",position_ms = 500000000 )
+                            sp.shuffle(True,device_id='84d7c2a5f9f170bd9f311d7ff1976c832a8a7872')
+                            is_playing = True
+                        except:
+                            print("Device is offline")
+                    else:
+                        try:
+                            sp.pause_playback(device_id='84d7c2a5f9f170bd9f311d7ff1976c832a8a7872')
+                            is_playing = False
+                        except:
+                            print("Device is offline")
+                    
+                finally:
+                        GPIO.cleanup()
+                        time.sleep(5)
+            elif id == 845083575277:
+                try:
+                    print("second")
+                    if p.is_on == True:
+                        await p.turn_off()
+                    else:
+                        await p.turn_on()
+                    
+                finally:
+                    GPIO.cleanup()
+                    time.sleep(5)
+
+            elif id ==  873688728395:
+                try:
+                    if is_playing == False:
+                        try:
+                            sp.start_playback(device_id='84d7c2a5f9f170bd9f311d7ff1976c832a8a7872',context_uri="spotify:playlist:5lLEuXnu30kD5pRyEqauU8",position_ms = 500000000 )
+                            sp.shuffle(True,device_id='84d7c2a5f9f170bd9f311d7ff1976c832a8a7872')
+                            is_playing = True
+                        except:
+                            print("Device is offline")
+                    else:
+                        try:
+                            sp.pause_playback(device_id='84d7c2a5f9f170bd9f311d7ff1976c832a8a7872')
+                            is_playing = False
+                        except:
+                            print("Device is offline")
+                finally:
+                    GPIO.cleanup()
+                    time.sleep(5)
+
+if __name__ == "__main__":
+    asyncio.run(run_rfid())
