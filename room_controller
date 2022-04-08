@@ -9,9 +9,9 @@ import asyncio
 from kasa import SmartPlug
 import json
 
-cid ="61ce98e1500d48438714352d227ede3e" 
-secret = "5472a4601ac94130bd9f1a097eb7095a"
-username = "bradenhayes55"
+cid ="###################################" 
+secret = "################################"
+username = "#############"
 redirect_url='http://localhost:8000'
 client_credentials_manager = SpotifyClientCredentials(client_id=cid, client_secret=secret) 
 sp = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
