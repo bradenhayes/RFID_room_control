@@ -4,10 +4,8 @@ import time
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
 import spotipy.util as util
-from datetime import datetime
 import asyncio
 from kasa import SmartPlug
-import json
 
 cid ="###################################" 
 secret = "################################"
