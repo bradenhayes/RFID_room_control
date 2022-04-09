@@ -22,7 +22,7 @@ else:
     print("Can't get token for", username)    
 
 reader = SimpleMFRC522()
-p = SmartPlug("192.168.2.125")
+p = SmartPlug("#######")
 
 
 async def run_rfid():
@@ -30,19 +30,19 @@ async def run_rfid():
     while 1:
             await p.update()
             id, text = reader.read()
-            if id == 352059467502:
+            if id == ##########:
                 print("first")
                 try:
                     if is_playing == False:
                         try:
-                            sp.start_playback(device_id='84d7c2a5f9f170bd9f311d7ff1976c832a8a7872',context_uri="spotify:playlist:1GbElhvLqjmJgoGdiznxmw",position_ms = 500000000 )
-                            sp.shuffle(True,device_id='84d7c2a5f9f170bd9f311d7ff1976c832a8a7872')
+                            sp.start_playback(device_id='####################',context_uri="spotify:playlist:##############",position_ms = 500000000 )
+                            sp.shuffle(True,device_id='######################')
                             is_playing = True
                         except:
                             print("Device is offline")
                     else:
                         try:
-                            sp.pause_playback(device_id='84d7c2a5f9f170bd9f311d7ff1976c832a8a7872')
+                            sp.pause_playback(device_id='##########################')
                             is_playing = False
                         except:
                             print("Device is offline")
@@ -50,7 +50,7 @@ async def run_rfid():
                 finally:
                         GPIO.cleanup()
                         time.sleep(5)
-            elif id == 845083575277:
+            elif id == #############:
                 try:
                     print("second")
                     if p.is_on == True:
@@ -66,14 +66,14 @@ async def run_rfid():
                 try:
                     if is_playing == False:
                         try:
-                            sp.start_playback(device_id='84d7c2a5f9f170bd9f311d7ff1976c832a8a7872',context_uri="spotify:playlist:5lLEuXnu30kD5pRyEqauU8",position_ms = 500000000 )
-                            sp.shuffle(True,device_id='84d7c2a5f9f170bd9f311d7ff1976c832a8a7872')
+                            sp.start_playback(device_id='########################',context_uri="spotify:playlist:################",position_ms = 500000000 )
+                            sp.shuffle(True,device_id='##########################')
                             is_playing = True
                         except:
                             print("Device is offline")
                     else:
                         try:
-                            sp.pause_playback(device_id='84d7c2a5f9f170bd9f311d7ff1976c832a8a7872')
+                            sp.pause_playback(device_id='###########################')
                             is_playing = False
                         except:
                             print("Device is offline")
